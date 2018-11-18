@@ -11,10 +11,11 @@ def get_all_todos(current_user):
     output = []
 
     for todo in todos:
-        todo_data = {}
-        todo_data['id'] = todo.id
-        todo_data['text'] = todo.text
-        todo_data['complete'] = todo.complete
+        todo_data = {
+            'id': todo.id,
+            'text': todo.text,
+            'complete': todo.complete,
+        }
         output.append(todo_data)
 
     return jsonify({'todos': output})
@@ -27,10 +28,11 @@ def get_one_todo(current_user, todo_id):
     if not todo:
         return jsonify({'message': 'Todo not found!'})
 
-    todo_data = {}
-    todo_data['id'] = todo.id
-    todo_data['text'] = todo.text
-    todo_data['complete'] = todo.complete
+    todo_data = {
+        'id': todo.id,
+        'text': todo.text,
+        'complete': todo.complete,
+    }
 
     return jsonify(todo_data)
 

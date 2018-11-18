@@ -7,6 +7,7 @@ import uuid
 from werkzeug.security import generate_password_hash, check_password_hash
 
 @app.route('/user', methods=['GET'])
+@token_required
 def get_users(current_user):
 
     if not current_user.admin:
@@ -15,11 +16,12 @@ def get_users(current_user):
     users = User.query.all()
     output = []
     for user in users:
-        user_data = {}
-        user_data['public_id'] = user.public_id
-        user_data['name'] = user.name
-        user_data['password'] = user.password
-        user_data['admin'] = user.admin
+        user_data = {
+            'public_id': user.public_id,
+            'name': user.name,
+            'password': user.password,
+            'admin': user.admin,
+        }
         output.append(user_data)
     return jsonify({'users': output})
 
@@ -35,11 +37,12 @@ def get_user_by_id(current_user, public_id):
     if not user:
         return jsonify({'message':'No user found!'})
 
-    user_data = {}
-    user_data['public_id'] = user.public_id
-    user_data['name'] = user.name
-    user_data['password'] = user.password
-    user_data['admin'] = user.admin
+    user_data = {
+        'public_id': user.public_id,
+        'name': user.name,
+        'password': user.password,
+        'admin': user.admin,
+    }
 
     return jsonify({'user': user_data})
 
