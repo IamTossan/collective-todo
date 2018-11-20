@@ -1,8 +1,8 @@
 from flask import jsonify, request, make_response
 from collective_todo import app, db
 from collective_todo.routes.auth import token_required
-from collective_todo.models.Todo import Todo
 from collective_todo.models.User import User
+from collective_todo.models.Group import Group
 import uuid
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -61,7 +61,13 @@ def create_user(current_user):
         password=hashed_password,
         admin=False,
     )
-    db.session.add(new_user)
+
+    new_group = Group(
+        name=data['name']
+    )
+
+    new_group.users.append(new_user)
+    db.session.add(new_group)
     db.session.commit()
     return jsonify({'message': 'new user created'})
 
