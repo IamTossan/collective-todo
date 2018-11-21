@@ -62,8 +62,12 @@ def create_user(current_user):
         admin=False,
     )
 
+    db.session.add(new_user)
+    db.session.flush()
+
     new_group = Group(
-        name=data['name']
+        name=data['name'],
+        owner=new_user,
     )
 
     new_group.users.append(new_user)

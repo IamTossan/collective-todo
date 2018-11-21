@@ -12,6 +12,7 @@ class Group(db.Model):
 
     group_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
+    owner_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
 
     users = db.relationship(
         'User',
