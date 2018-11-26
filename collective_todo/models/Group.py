@@ -1,5 +1,4 @@
 from collective_todo import db
-from collective_todo.models.User import User
 
 userGroup = db.Table(
     'userGroup',
