@@ -18,7 +18,6 @@ class Group(db.Model):
         secondary=userGroup,
         lazy='subquery',
         backref=db.backref('users', lazy=True),
-        cascade='delete',
     )
 
     def __repr__(self):

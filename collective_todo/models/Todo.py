@@ -18,7 +18,6 @@ class Todo(db.Model):
         secondary=todoGroup,
         lazy='subquery',
         backref=db.backref('groups', lazy=True),
-        cascade='delete',
     )
 
     def __repr__(self):
