@@ -2,7 +2,7 @@ from flask import jsonify , request
 from collective_todo import app, db
 from collective_todo.routes.auth import token_required
 from collective_todo.models.User import User
-from collective_todo.models.Todo import Todo, todoGroup
+from collective_todo.models.Todo import Todo, todoGroup, CreateTodoForm
 from collective_todo.models.Group import Group
 
 @app.route('/todo', methods=['GET'])
@@ -43,6 +43,10 @@ def get_one_todo(current_user, todo_id):
 @token_required
 def create_todo(current_user):
     data = request.get_json()
+
+    form = CreateTodoForm(request.form)
+    if not form.validate():
+        return jsonify({'message': 'invalid payload'})
 
     target_groups = db.session.query(Group).filter(Group.group_id.in_(data['target'])).all()
 

@@ -1,10 +1,11 @@
 from flask import jsonify, request, make_response
-from collective_todo import app, db
-from collective_todo.routes.auth import token_required
-from collective_todo.models.User import User
-from collective_todo.models.Group import Group
 import uuid
 from werkzeug.security import generate_password_hash, check_password_hash
+
+from collective_todo import app, db
+from collective_todo.routes.auth import token_required
+from collective_todo.models.User import User, CreateUserForm
+from collective_todo.models.Group import Group
 
 @app.route('/user', methods=['GET'])
 @token_required
@@ -52,6 +53,10 @@ def create_user(current_user):
 
     if not current_user.admin:
         return jsonify({'message': 'Cannot perform that function'})
+
+    form = CreateUserForm(request.form)
+    if not form.validate():
+        return jsonify({'message': 'invalid payload'})
 
     data = request.get_json()
     hashed_password = generate_password_hash(data['password'], method='sha256')
